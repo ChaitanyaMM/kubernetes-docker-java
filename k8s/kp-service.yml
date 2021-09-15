@@ -1,0 +1,7 @@
+appVersion: v1
+kind: service
+metadata: 
+   name: sample-service
+spec:
+   name: 
+   image:

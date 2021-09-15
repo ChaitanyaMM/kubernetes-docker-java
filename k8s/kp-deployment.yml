@@ -1,0 +1,13 @@
+appVersion: v1
+kind: deployment
+metadata:
+  name : sample-deployment
+spec:
+  containers: 
+    -name: sample-container
+     image:
+     imagePullPolicy: Always
+     ports:
+       -containerPort: 8465
+  
+   
