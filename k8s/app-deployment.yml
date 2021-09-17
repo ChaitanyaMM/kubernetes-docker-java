@@ -23,7 +23,7 @@ spec:
   selector:         
     matchLabels:
       app: kubernetes-docker-java
-  replicas: 3        
+  replicas: 2      
   template:
     metadata:
       labels:        
@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
         - name: kubernetes-docker-java
-          image: kubernerte-docker-java:1.0
+          image: chaitu465/kubernerte-docker-java:2.3
           ports:
             - containerPort: 8080                
           env:   # Setting Enviornmental Variables

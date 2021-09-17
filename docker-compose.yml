@@ -1,0 +1,23 @@
+version: "3"
+services:
+  k8s-java-app:
+    image: chaitu465/kubernerte-docker-java:2.2
+    ports:
+      - "7878:7878"
+    networks:
+      - chy-k8s-java
+    depends_on:
+      - mysqldb
+ 
+  mysqldb:
+    image: mysql:8
+    networks:
+      - chy-k8s-java
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=Sql@1234  
+    ports:
+          - "33060:3306"
+
+networks:
+  chy-k8s-java:
