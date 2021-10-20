@@ -5,7 +5,7 @@ spring:
     name: k8s-connect
   datasource:
     password: Sql@1234
-    url: jdbc:mysql://192.168.99.100:33060/k8sDB
+    url: jdbc:mysql://192.168.99.100:33060/k8sDB  #points to docker images or container
     username: root
   jpa:
     hibernate:

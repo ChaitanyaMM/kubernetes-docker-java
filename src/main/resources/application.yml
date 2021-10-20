@@ -2,17 +2,26 @@ server:
   port: 7878
 spring:
   profiles:
-    active: dev
+    active: test
   application:
     name: k8s-connect
   datasource:
     password: Sql@1234
-    url: jdbc:mysql://localhost:3306/k8sDB?useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/k8sDB?useSSL=false&allowPublicKeyRetrieval=true
     username: root
+    initialization-mode: always
   jpa:
+    defer-datasource-initialization: true
     hibernate:
       ddl-auto: update
       naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  auditevents:
+    enabled: true

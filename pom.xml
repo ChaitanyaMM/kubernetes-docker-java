@@ -41,6 +41,15 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 		</dependency>
@@ -53,24 +62,29 @@
 		</dependency>
 	</dependencies>
 
+
+
 	<build>
+		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-        <configuration>
-            <mainClass>com.example.demo.KubernetesDockerJavaApplication</mainClass>
-        </configuration>
-
-        <executions>
-            <execution>
-                <goals>
-                    <goal>repackage</goal>
-                </goals>
-            </execution>
-       </executions>
-
-</plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>com.example.demo.KubernetesDockerJavaApplication</mainClass>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>build-info</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>   <!-- to get git commit -->
+				<groupId>pl.project13.maven</groupId>
+				<artifactId>git-commit-id-plugin</artifactId>
+			</plugin>
 		</plugins>
 	</build>
 

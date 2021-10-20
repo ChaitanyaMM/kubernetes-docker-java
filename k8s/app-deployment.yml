@@ -7,12 +7,12 @@ metadata:
 spec:
   ports:
     - nodePort: 30163 
-      port: 8080      
-      targetPort: 8080  
+      port: 7878      
+      targetPort: 7878  
       protocol: TCP
   selector:           
     app: kubernetes-docker-java
-  type: NodePort       
+  type: LoadBalancer       
 
 ---
 apiVersion: apps/v1 
@@ -23,7 +23,7 @@ spec:
   selector:         
     matchLabels:
       app: kubernetes-docker-java
-  replicas: 2      
+  replicas: 2  
   template:
     metadata:
       labels:        
@@ -31,27 +31,39 @@ spec:
     spec:
       containers:
         - name: kubernetes-docker-java
-          image: chaitu465/kubernerte-docker-java:2.3
+          image: chaitu465/kubernerte-docker-java:2.6
           ports:
-            - containerPort: 8080                
-          env:   # Setting Enviornmental Variables
-          - name: DB_HOST   # Setting Database host address from configMap
-            valueFrom: 
-              configMapKeyRef:
-                name: db-conf  # name of configMap
-                key: host
-          - name: DB_NAME  # Setting Database name from configMap
-            valueFrom:
-              configMapKeyRef:
-                name: db-conf 
-                key: name
-          - name: DB_USERNAME  # Setting Database username from Secret
-            valueFrom:
+            - containerPort: 7878                
+          env:                  # Environment variables supplied to the Pod
+          - name: DB_USERNAME # Name of the environment variable
+            valueFrom:          # Get the value of environment variable from kubernetes secrets
               secretKeyRef:
-                name: db-credentials # Secret Name
+                name: db-credentials
                 key: username
-          - name: DB_PASSWORD # Setting Database password from Secret
+          - name: DB_PASSWORD
             valueFrom:
               secretKeyRef:
                 name: db-credentials
-                key: password 
+                key: password
+          - name: DB_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: db-conf
+                key: host
+            readinessProbe:
+              httpGet:
+                port: 8080
+                path: /actuator/health
+              initialDelaySeconds: 60
+              timeoutSeconds: 2
+              periodSeconds: 20
+              failureThreshold: 5
+            livenessProbe:
+              httpGet:
+                port: 8080
+                path: /actuator/info
+              initialDelaySeconds: 60
+              timeoutSeconds: 2
+              periodSeconds: 20
+              failureThreshold: 5
+                        

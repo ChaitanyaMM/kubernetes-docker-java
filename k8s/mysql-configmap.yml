@@ -3,5 +3,6 @@ kind: ConfigMap
 metadata:
   name: db-conf
 data:
- host: mysql
- name: test 
+ host: mysql  #host which we point from application
+ name: k8sDB 
+ url: jdbc:mysql://mysql:3306/k8sDB?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
