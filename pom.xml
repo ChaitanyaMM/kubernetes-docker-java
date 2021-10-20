@@ -8,6 +8,7 @@
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.4.7</version>
 		<relativePath /> <!-- lookup parent from repository -->
+		
 	</parent>
 	<groupId>com.example</groupId>
 	<artifactId>kubernetes-docker-java</artifactId>
