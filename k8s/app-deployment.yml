@@ -36,34 +36,20 @@ spec:
             - containerPort: 7878                
           env:                  # Environment variables supplied to the Pod
           - name: DB_USERNAME # Name of the environment variable
-            valueFrom:          # Get the value of environment variable from kubernetes secrets
-              secretKeyRef:
-                name: db-credentials
-                key: username
+            value: root
           - name: DB_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: db-credentials
-                key: password
-          - name: DB_HOST
+            value: Sql@1234
+          - name: spring.datasource.url
             valueFrom:
               configMapKeyRef:
                 name: db-conf
-                key: host
-            readinessProbe:
-              httpGet:
-                port: 8080
-                path: /actuator/health
-              initialDelaySeconds: 60
-              timeoutSeconds: 2
-              periodSeconds: 20
-              failureThreshold: 5
-            livenessProbe:
-              httpGet:
-                port: 8080
-                path: /actuator/info
-              initialDelaySeconds: 60
-              timeoutSeconds: 2
-              periodSeconds: 20
-              failureThreshold: 5
+                key: url
+          resources:
+            requests:
+              cpu: "0.2"
+              memory: 300Mi
+            limits:
+              cpu: "1.0"
+              memory: 300Mi
+
                         

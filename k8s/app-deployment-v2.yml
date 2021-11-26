@@ -1,0 +1,59 @@
+apiVersion: apps/v1           # API version
+kind: Deployment              # Type of kubernetes resource
+metadata:
+  name: kubernetes-docker-java    # Name of the kubernetes resource
+  labels:                     # Labels that will be applied to this resource
+    app: kubernetes-docker-java
+spec:
+  replicas: 1                 # No. of replicas/pods to run in this deployment
+  selector:
+    matchLabels:              # The deployment applies to any pods mayching the specified labels
+      app: kubernetes-docker-java
+  template:                   # Template for creating the pods in this deployment
+    metadata:
+      labels:                 # Labels that will be applied to each Pod in this deployment
+        app: kubernetes-docker-java
+    spec:                     # Spec for the containers that will be run in the Pods
+      containers:
+      - name: kubernetes-docker-java
+        image: chaitu465/kubernerte-docker-java:2.7
+        imagePullPolicy: IfNotPresent
+        ports:
+          - name: http
+            containerPort: 7878 # The port that the container exposes
+        resources:
+          limits:
+            cpu: 0.2
+            memory: "200Mi"
+        env:                  # Environment variables supplied to the Pod
+          - name: DB_USERNAME # Name of the environment variable
+            valueFrom:          # Get the value of environment variable from kubernetes secrets
+              secretKeyRef:
+                name: mysql-root-credentials
+                key: username
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysql-root-credentials
+                key: password
+          - name: DB_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: db-conf
+                key: host
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: kubernetes-docker-java
+  labels:
+    name: kubernetes-docker-java
+spec:
+  ports:
+    - nodePort: 30163 
+      port: 7878      
+      targetPort: 7878  
+      protocol: TCP
+  selector:           
+    app: kubernetes-docker-java
+  type: LoadBalancer  

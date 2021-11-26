@@ -1,0 +1,74 @@
+Name:         kubernetes-docker-java-6c9595bb54-5972n
+Namespace:    default
+Priority:     0
+Node:         minikube/192.168.99.105
+Start Time:   Fri, 29 Oct 2021 19:05:54 +0530
+Labels:       app=kubernetes-docker-java
+              pod-template-hash=6c9595bb54
+Annotations:  <none>
+Status:       Running
+IP:           172.17.0.11
+IPs:
+  IP:           172.17.0.11
+Controlled By:  ReplicaSet/kubernetes-docker-java-6c9595bb54
+Containers:
+  kubernetes-docker-java:
+    Container ID:   docker://09ba156563e8d8202725977fe2c67c2ca151fd8c99e11e9ff1fa7d5de1aeb25f
+    Image:          chaitu465/kubernerte-docker-java:2.6
+    Image ID:       docker-pullable://chaitu465/kubernerte-docker-java@sha256:18f88fcb650a9b290893a8270452207068e538b3489ae1b9cf459bde522f35a9
+    Port:           7878/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Fri, 29 Oct 2021 19:14:02 +0530
+    Last State:     Terminated
+      Reason:       Error
+      Exit Code:    143
+      Started:      Fri, 29 Oct 2021 19:11:22 +0530
+      Finished:     Fri, 29 Oct 2021 19:13:55 +0530
+    Ready:          False
+    Restart Count:  3
+    Limits:
+      cpu:     1
+      memory:  300Mi
+    Requests:
+      cpu:      200m
+      memory:   300Mi
+    Liveness:   http-get http://:7878/actuator/info delay=60s timeout=2s period=20s #success=1 #failure=5
+    Readiness:  http-get http://:7878/actuator/health delay=60s timeout=2s period=20s #success=1 #failure=5
+    Environment:
+      DB_USERNAME:            root
+      DB_PASSWORD:            Sql@1234
+      spring.datasource.url:  <set to the key 'url' of config map 'db-conf'>  Optional: false
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-6lm4t (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             False 
+  ContainersReady   False 
+  PodScheduled      True 
+Volumes:
+  kube-api-access-6lm4t:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute for 300s
+                             node.kubernetes.io/unreachable:NoExecute for 300s
+Events:
+  Type     Reason     Age                    From               Message
+  ----     ------     ----                   ----               -------
+  Normal   Scheduled  9m43s                  default-scheduler  Successfully assigned default/kubernetes-docker-java-6c9595bb54-5972n to minikube
+  Normal   Killing    7m2s                   kubelet            Container kubernetes-docker-java failed liveness probe, will be restarted
+  Normal   Pulled     6m59s (x2 over 9m34s)  kubelet            Container image "chaitu465/kubernerte-docker-java:2.6" already present on machine
+  Normal   Created    6m56s (x2 over 9m31s)  kubelet            Created container kubernetes-docker-java
+  Normal   Started    6m54s (x2 over 9m29s)  kubelet            Started container kubernetes-docker-java
+  Warning  Unhealthy  5m43s (x3 over 8m23s)  kubelet            Readiness probe failed: Get "http://172.17.0.11:7878/actuator/health": dial tcp 172.17.0.11:7878: connect: connection refused
+  Warning  Unhealthy  5m43s (x3 over 8m23s)  kubelet            Liveness probe failed: Get "http://172.17.0.11:7878/actuator/info": dial tcp 172.17.0.11:7878: connect: connection refused
+  Warning  Unhealthy  5m21s (x2 over 7m41s)  kubelet            Liveness probe failed: Get "http://172.17.0.11:7878/actuator/info": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+  Warning  Unhealthy  5m2s (x3 over 7m23s)   kubelet            Readiness probe failed: HTTP probe failed with statuscode: 404
+  Warning  Unhealthy  4m41s (x3 over 7m41s)  kubelet            Readiness probe failed: Get "http://172.17.0.11:7878/actuator/health": context deadline exceeded (Client.Timeout exceeded while awaiting headers)
+  Warning  Unhealthy  4m22s (x5 over 7m23s)  kubelet            Liveness probe failed: HTTP probe failed with statuscode: 404
