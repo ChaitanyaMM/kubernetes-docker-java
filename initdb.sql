@@ -7,6 +7,6 @@
    `gender` VARCHAR(255) DEFAULT NULL
   );
 
- INSERT INTO sample VALUES (10, 'chy-001', 'MALE');
- INSERT INTO sample VALUES (11, 'chy-002', 'MALE');
- INSERT INTO sample VALUES (12, 'chy-003', 'MALE');
+ INSERT INTO sample VALUES (4, 'chy-004', 'MALE');
+ INSERT INTO sample VALUES (5, 'chy-005', 'MALE');
+ INSERT INTO sample VALUES (6, 'chy-006', 'MALE');
