@@ -7,8 +7,8 @@ metadata:
 spec:
   ports:
     - nodePort: 30163 
-      port: 8080      
-      targetPort: 8080  
+      port: 7878      
+      targetPort: 7878  
       protocol: TCP
   selector:           
     app: kubernetes-docker-java
@@ -31,27 +31,24 @@ spec:
     spec:
       containers:
         - name: kubernetes-docker-java
-          image: chaitu465/kubernerte-docker-java:2.3
+          image: chaitu465/kubernerte-docker-java:2.6
           ports:
-            - containerPort: 8080                
-          env:   # Setting Enviornmental Variables
-          - name: DB_HOST   # Setting Database host address from configMap
-            valueFrom: 
-              configMapKeyRef:
-                name: db-conf  # name of configMap
-                key: host
-          - name: DB_NAME  # Setting Database name from configMap
-            valueFrom:
-              configMapKeyRef:
-                name: db-conf 
-                key: name
-          - name: DB_USERNAME  # Setting Database username from Secret
+            - containerPort: 7878                
+          env:                  # Environment variables supplied to the Pod
+          - name: DB_USERNAME # Name of the environment variable
+            value: root
+          - name: DB_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: db-credentials # Secret Name
-                key: username
-          - name: DB_PASSWORD # Setting Database password from Secret
+                name: db-root-credentials
+                key: password
+          - name: spring.datasource.url
             valueFrom:
-              secretKeyRef:
-                name: db-credentials
-                key: password 
+              configMapKeyRef:
+                name: db-conf
+                key: url
+      initContainers:
+        - name: init-service
+          image: busybox:1.31
+          command: ['sh', '-c', 'echo -e "Checking for the availability of MySQL Server deployment"; while ! nc -z mysql 3306; do sleep 1; printf "-"; done; echo -e "  >> MySQL DB Server has started";']
+

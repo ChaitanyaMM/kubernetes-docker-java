@@ -1,11 +1,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: db-conf
+  name: mysql-data-loader
 data:
- host: mysql
- url: jdbc:mysql://mysql:3306/k8sDB?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
- name: k8sDB 
  init.sql: |
       CREATE DATABASE IF NOT EXISTS k8sDB;
       USE `k8sDB`;
