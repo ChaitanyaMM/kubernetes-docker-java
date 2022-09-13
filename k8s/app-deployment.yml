@@ -30,25 +30,36 @@ spec:
         app: kubernetes-docker-java
     spec:
       containers:
-        - name: kubernetes-docker-java
-          image: chaitu465/kubernerte-docker-java:2.6
+        - name: kubernetes-docker-java #main-container
+          image: chaitu465/kubernerte-docker-java:3.4
           ports:
             - containerPort: 7878                
           env:                  # Environment variables supplied to the Pod
-          - name: DB_USERNAME # Name of the environment variable
-            value: root
-          - name: DB_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: db-root-credentials
-                key: password
           - name: spring.datasource.url
             valueFrom:
               configMapKeyRef:
                 name: db-conf
                 key: url
+          - name: spring.datasource.password
+            value: admin123
+          - name: spring.datasource.username
+            value: root
+          volumeMounts:
+            - name: shared-logs
+              mountPath: /logs
+        - name: adapter-container #adapter-container
+          image: chaitu465/adopter-ambassador-container:v9.1
+          imagePullPolicy: Always
+          resources: {}
+          ports:
+           - containerPort: 7777
+          volumeMounts:
+            - name: shared-logs
+              mountPath: /logs
       initContainers:
         - name: init-service
           image: busybox:1.31
           command: ['sh', '-c', 'echo -e "Checking for the availability of MySQL Server deployment"; while ! nc -z mysql 3306; do sleep 1; printf "-"; done; echo -e "  >> MySQL DB Server has started";']
-
+      volumes:
+        - name: shared-logs
+          emptyDir: {}

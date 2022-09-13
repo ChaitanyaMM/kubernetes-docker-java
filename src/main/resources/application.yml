@@ -1,8 +1,8 @@
 server:
   port: 7878
 spring:
-#  profiles:
-#    active: dev
+  profiles:
+    active: dev
   application:
     name: k8s-connect
   datasource:
@@ -16,3 +16,12 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect
+
+#logging:
+#  level:
+#    org.springframework: ERROR
+#    com.mkyong: DEBUG
+#  pattern:
+#    console: "%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"
+#    file: "%d %p %c{1.} [%t] %m%n"
+#  file: app.log
